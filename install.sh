@@ -29,17 +29,19 @@ EOF
         "inbounds": [
             {
                 "port": 8080,
-                "protocol": "vmess",
+                "protocol": "vless",
                 "settings": {
                     "clients": [
                         {
                             "id": "${UUID}",
-                            "alterId": 4
+                            "level": 0
                         }
-                    ]
+                    ],
+					"decryption": "none"
                 },
                 "streamSettings": {
                     "network":"ws",
+					"security": "none",
                     "wsSettings": {
                         "path": "${WSPATH}"
                     }
