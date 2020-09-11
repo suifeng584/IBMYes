@@ -1,1 +1,1 @@
-web: ./passfly/passfly
+web: ./passfly/passfly -conf=./passfly/config.pb

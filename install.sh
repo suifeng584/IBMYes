@@ -24,7 +24,7 @@ create_mainfest_file(){
       memory: ${IBM_MEM_SIZE}M
 EOF
 
-    cat >  ${SH_PATH}/IBMYes/passfly-cloudfoundry/passfly/config.json  << EOF
+    cat >  ${SH_PATH}/IBMYes/passfly-cloudfoundry/passfly/configfly.json  << EOF
     {
         "inbounds": [
             {
@@ -91,6 +91,10 @@ clone_repo(){
     mv v2ray passfly
     
     chmod 0755 ./*
+	echo "convert json to pb"
+	./v2ctl config < configfly.json > config.pb
+	echo "rm v2ctl json"
+	rm v2ctl configfly.json
     cd ${SH_PATH}/IBMYes/passfly-cloudfoundry
     echo "初始化完成。"
 }
