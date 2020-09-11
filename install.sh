@@ -16,7 +16,7 @@ create_mainfest_file(){
     WSPATH=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
     echo "生成随机WebSocket路径：${WSPATH}"
     
-    cat >  ${SH_PATH}/IBMYes/v2ray-cloudfoundry/manifest.yml  << EOF
+    cat >  ${SH_PATH}/IBMYes/passfly-cloudfoundry/manifest.yml  << EOF
     applications:
     - path: .
       name: ${IBM_APP_NAME}
@@ -24,7 +24,7 @@ create_mainfest_file(){
       memory: ${IBM_MEM_SIZE}M
 EOF
 
-    cat >  ${SH_PATH}/IBMYes/v2ray-cloudfoundry/v2ray/config.json  << EOF
+    cat >  ${SH_PATH}/IBMYes/passfly-cloudfoundry/passfly/config.json  << EOF
     {
         "inbounds": [
             {
@@ -61,10 +61,11 @@ EOF
 
 clone_repo(){
     echo "进行初始化。。。"
-    git clone https://github.com/CCChieh/IBMYes
+    git clone -b vless-test https://github.com/suifeng584/IBMYes
+	# git checkout vless-test
     cd IBMYes
-    git submodule update --init --recursive
-    cd v2ray-cloudfoundry/v2ray
+    # git submodule update --init --recursive
+    cd passfly-cloudfoundry/passfly
     # Upgrade V2Ray to the latest version
     rm v2ray v2ctl
     
@@ -87,15 +88,16 @@ clone_repo(){
     fi
     unzip latest-v2ray.zip v2ray v2ctl geoip.dat geosite.dat
     rm latest-v2ray.zip
+    mv v2ray passfly
     
     chmod 0755 ./*
-    cd ${SH_PATH}/IBMYes/v2ray-cloudfoundry
+    cd ${SH_PATH}/IBMYes/passfly-cloudfoundry
     echo "初始化完成。"
 }
 
 install(){
     echo "进行安装。。。"
-    cd ${SH_PATH}/IBMYes/v2ray-cloudfoundry
+    cd ${SH_PATH}/IBMYes/passfly-cloudfoundry
     ibmcloud target --cf
     ibmcloud cf install
     ibmcloud cf push
